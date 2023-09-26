@@ -7,6 +7,7 @@ function makeGrid(event) {
 		const box = document.createElement("div");
 		box.classList.add("grid");
 		box.style.width = 100 / gridsize + "%";
+        box.style.backgroundColor = null;
 		container.appendChild(box);
 	}
 }
@@ -27,13 +28,24 @@ function setGrid(event) {
 	}
 }
 
+function randomColor() {
+	let str = Math.floor(Math.random() * 16777216).toString(16);
+	return "#" + str;
+}
 function draw(event) {
-	this.classList.add("hov");
+	if (this.style.backgroundColor === "") {
+        this.style.backgroundColor = randomColor();
+        this.style.opacity = 0.5
+	} else {
+        let val = Number(this.style.opacity) + 0.1
+        if (val <= 1) this.style.opacity = val;
+	}
 }
 
 function removeColor(event) {
 	const boxes = document.querySelectorAll(".grid");
-	boxes.forEach((box) => box.classList.remove("hov"));
+	boxes.forEach((box) => (box.style.backgroundColor = null));
+    boxes.forEach((box) => (box.style.opacity = null));
 }
 
 document.addEventListener("load", makeGrid());
